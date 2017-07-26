@@ -33,6 +33,20 @@ namespace NCmdArgs
             return instance;
         }
 
+        public VerbCallerData ExternalVerbCall(string[] args)
+        {
+            if (args.Length == 0) return null;
+            
+            var q = new Queue<string>(args);
+            var token = q.Dequeue();
+            if (CouldBeVerb(token))
+            {
+                return new VerbCallerData(token, q.ToArray());
+            }
+
+            return null;
+        }
+
         public bool TryPredictVerbs(string[] args, out string verbs, out string[] newArgs)
         {
             if (args == null) throw new ArgumentNullException(nameof(args));
